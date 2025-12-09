@@ -87,16 +87,25 @@ const UpdateInvoice = FormSchema.omit({ id: true, date: true });
  * Updates an existing invoice in the database.
  * Parses form data, converts amount to cents, updates the invoice record,
  * revalidates the invoices page, and redirects back to it.
- * @param id - The ID of the invoice to update
+ * @param prevState - The previous state
  * @param formData - The form data from the edit invoice form
  */
-export async function updateInvoice(id: string, formData: FormData) {
+export async function updateInvoice(prevState: State, formData: FormData) {
+  const id = formData.get("id") as string;
   // Parse and validate the form data using UpdateInvoice schema
-  const { customerId, amount, status } = UpdateInvoice.parse({
+  const validatedFields = UpdateInvoice.safeParse({
     customerId: formData.get("customerId"),
     amount: formData.get("amount"),
     status: formData.get("status"),
   });
+
+  if(!validatedFields.success){
+    return {
+      errors : validatedFields.error.flatten().fieldErrors,
+      message : "Failed to update invoice"
+    }
+  }
+  const {customerId, amount, status } = validatedFields.data;
   // Convert amount to cents for storage
   const amountInCents = amount * 100;
   try {
