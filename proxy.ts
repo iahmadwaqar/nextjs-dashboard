@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+// Rename file to middleware.ts
 import { authConfig } from './auth.config';
  
 export default NextAuth(authConfig).auth;
