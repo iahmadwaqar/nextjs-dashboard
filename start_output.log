@@ -1,0 +1,31 @@
+
+> @ start /app
+> next start
+
+   ▲ Next.js 15.3.2
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+
+ ✓ Starting...
+ ✓ Ready in 641ms
+Database Error: AggregateError:
+    at <unknown> (.next/server/chunks/925.js:1:702)
+    at new c (.next/server/chunks/925.js:1:744)
+    at n (.next/server/chunks/925.js:21:8435)
+    at c (.next/server/chunks/572.js:6:145) {
+  code: 'ECONNREFUSED'
+}
+Database Error: AggregateError:
+    at <unknown> (.next/server/chunks/925.js:1:702)
+    at new c (.next/server/chunks/925.js:1:744)
+    at n (.next/server/chunks/925.js:21:8435)
+    at i (.next/server/chunks/572.js:1:5277) {
+  code: 'ECONNREFUSED'
+}
+Database Error: AggregateError:
+    at <unknown> (.next/server/chunks/925.js:1:702)
+    at new c (.next/server/chunks/925.js:1:744)
+    at n (.next/server/chunks/925.js:21:8435)
+    at a (.next/server/chunks/572.js:1:5393) {
+  code: 'ECONNREFUSED'
+}
