@@ -13,20 +13,23 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 export async function fetchRevenue() {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 9000));
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue[]>`SELECT * FROM revenue`;
+
+    // console.log('Data fetch completed after 3 seconds.');
 
     return data;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch revenue data.");
+    // throw new Error("Failed to fetch revenue data.");
+    // Return empty array instead of throwing to allow page to render without crashing on DB error
+    return [];
   }
 }
 
 export async function fetchLatestInvoices() {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 9000));
     const data = await sql<LatestInvoiceRaw[]>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
       FROM invoices
@@ -41,7 +44,8 @@ export async function fetchLatestInvoices() {
     return latestInvoices;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch the latest invoices.");
+    // throw new Error("Failed to fetch the latest invoices.");
+    return [];
   }
 }
 
@@ -76,7 +80,13 @@ export async function fetchCardData() {
     };
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch card data.");
+    // throw new Error("Failed to fetch card data.");
+    return {
+      numberOfCustomers: 0,
+      numberOfInvoices: 0,
+      totalPaidInvoices: "$0.00",
+      totalPendingInvoices: "$0.00",
+    }
   }
 }
 
@@ -112,7 +122,8 @@ export async function fetchFilteredInvoices(
     return invoices;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch invoices.");
+    // throw new Error("Failed to fetch invoices.");
+    return [];
   }
 }
 
@@ -133,7 +144,8 @@ export async function fetchInvoicesPages(query: string) {
     return totalPages;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch total number of invoices.");
+    // throw new Error("Failed to fetch total number of invoices.");
+    return 1;
   }
 }
 
@@ -158,7 +170,8 @@ export async function fetchInvoiceById(id: string) {
     return invoice[0];
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch invoice.");
+    // throw new Error("Failed to fetch invoice.");
+    return null; // Handle null in the component
   }
 }
 
@@ -175,7 +188,8 @@ export async function fetchCustomers() {
     return customers;
   } catch (err) {
     console.error("Database Error:", err);
-    throw new Error("Failed to fetch all customers.");
+    // throw new Error("Failed to fetch all customers.");
+    return [];
   }
 }
 
@@ -208,6 +222,7 @@ export async function fetchFilteredCustomers(query: string) {
     return customers;
   } catch (err) {
     console.error("Database Error:", err);
-    throw new Error("Failed to fetch customer table.");
+    // throw new Error("Failed to fetch customer table.");
+    return [];
   }
 }
